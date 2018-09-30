@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bananashop-app
+  labels:
+    app: bananashop-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bananashop-app
+  template:
+    metadata:
+      labels:
+        app: bananashop-app
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheusExporter"
+        prometheus.io/port: "9080"
+        metrics.alpha.kubernetes.io/custom-endpoints: '{"path": "/prometheusExporter", "port": 9080, "names": ["bananashop_metric_bananas_count"]}'
+    spec:
+      containers:
+      - name: bananashop-app
+        image: angeloxx/bananashop:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 9080
+        readinessProbe:
+          httpGet:
+            path: /bananaShop/health
+            port: 9080
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bananashop
+  annotations:
+    prometheus.io/scrape: "true" 
+spec:
+  sessionAffinity: None
+  selector:
+    app: bananashop-app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9080
+    nodePort: 30010
+  type: NodePort
+---
+  apiVersion: autoscaling/v2beta1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: bananashop-app
+  spec:
+    scaleTargetRef:
+      apiVersion: extensions/v1beta1
+      kind: Deployment
+      name: bananashop-app
+    minReplicas: 1
+    maxReplicas: 5
+    metrics:
+    - type: Pods
+      pods:
+        metricName: bananashop_metric_bananas_per_minute
+        targetAverageValue: 70
