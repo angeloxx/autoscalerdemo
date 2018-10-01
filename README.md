@@ -1,6 +1,8 @@
 # Installation
 ## Kubernetes node (based on Debian 9)
 
+Install Kubernetes
+
     apt update && apt install -y apt-transport-https curl
     curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
     cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
@@ -10,6 +12,7 @@
     apt install -y kubelet kubeadm kubectl
     apt-mark hold kubelet kubeadm kubectl
     
+Install Docker
     
     apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common
     curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
@@ -20,6 +23,8 @@
    
     # List of images to pull
     kubeadm config images list
+
+Install the master
 
     cat <<\EOF | tee kubeadm.yaml
     kind: MasterConfiguration
@@ -44,11 +49,12 @@
     
     export KUBECONFIG=/etc/kubernetes/admin.conf
     kubectl taint nodes --all node-role.kubernetes.io/master-
-       
-    # 1.12 compatible patched flannel
+
+1.12 compatible patched flannel
+
     kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml
 
-
+Metric server (based on Prometheus)
 
     kubectl apply -f https://raw.githubusercontent.com/kubernetes-incubator/metrics-server/master/deploy/1.8%2B/auth-delegator.yaml
     kubectl apply -f https://raw.githubusercontent.com/kubernetes-incubator/metrics-server/master/deploy/1.8%2B/auth-reader.yaml
@@ -67,9 +73,6 @@
     cat <<\EOF | sudo tee /etc/default/kubelet
     KUBELET_EXTRA_ARGS="--read-only-port=10255"
     EOF
-
-    # Prometheus
-    #kubectl apply   --filename https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests-all.yaml
 
     # Install Prometheus for custom-metrial-api server
     kubectl create namespace monitoring
@@ -106,18 +109,24 @@
     kubectl apply -f https://raw.githubusercontent.com/stefanprodan/k8s-prom-hpa/master/custom-metrics-api/custom-metrics-resource-reader-cluster-role.yaml
     kubectl apply -f https://raw.githubusercontent.com/stefanprodan/k8s-prom-hpa/master/custom-metrics-api/hpa-custom-metrics-cluster-role-binding.yaml
 
-    # Grafana
+Grafana
+
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/deployment.yaml
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/service.yaml
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/configmap.yaml
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/job.yaml
 
-    # Install application
-    kubectl apply -f /secure/kubernetes/website.yaml
-# Build
-## Docker
-    sudo docker build --no-cache  . -t angeloxx/bananashop    
+
+
+# Application
+## Build Docker image
+
+    cd docker
+    docker build --no-cache  . -t angeloxx/bananashop    
     
+ ## Install application
+    kubectl apply -f /secure/kubernetes/website.yaml
+
 # References
 - https://github.com/CPMoore/waslp-prometheusExporter
 
@@ -129,16 +138,37 @@
 - http://k8s-node.angeloxx.lan:31190/graph
 - http://k8s-node.angeloxx.lan:31425/dashboard/db/banana
 
-## Commands
+## Useful command lines
+
     kubectl get horizontalpodautoscalers.autoscaling bananashop-app
     kubectl describe deployments bananashop-app
 
-# prometheuousExported
 
-bin\featureManager install prometheusExporter-1.0.0.esa
+# Usage of prometheudExported feature
 
-and
+Install the feature in your Webshere Liberty
 
-		<feature>restConnector-2.0</feature>
-		<feature>usr:prometheusExporter-1.0</feature>
+    bin\featureManager install prometheusExporter-1.0.0.esa
 
+and activate the feature on your server.xml, eg:
+
+    <feature>restConnector-2.0</feature>
+    <feature>usr:prometheusExporter-1.0</feature>
+
+You can define the prometheus endpoint and the list of exposes metrics:
+
+	<prometheusExporter lowercaseOutputLabelNames="true" lowercaseOutputName="true" path="/" startDelaySeconds="1">
+        <blacklistObjectName>WebSphere:*</blacklistObjectName>
+        <blacklistObjectName>waslp:*</blacklistObjectName>
+        <connection addIdentificationLabels="true" baseURL="http://localhost:9081" includeMemberMetrics="true"/>
+        <rule attrNameSnakeCase="true" help="Some help text" name="os_metric_$1" pattern="java.lang{type=OperatingSystem}{}(.*):" valueFactor="1"></rule>
+        <rule attrNameSnakeCase="true" help="BananaShopMetrics" name="bananashop_metric_$1" pattern="com.angeloxx.bananashop{type=CounterMBean}{}(.*):"></rule>  
+    </prometheusExporter>
+
+The application Deployment annontation is used by Prometheus to know if (and where) scrape the pod for metrics:
+
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheusExporter"
+        prometheus.io/port: "9080"
+        metrics.alpha.kubernetes.io/custom-endpoints: '{"path": "/prometheusExporter", "port": 9080, "names": ["bananashop_metric_bananas_count"]}'
