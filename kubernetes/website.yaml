@@ -34,8 +34,6 @@ kind: Service
 apiVersion: v1
 metadata:
   name: bananashop
-  annotations:
-    prometheus.io/scrape: "true" 
 spec:
   sessionAffinity: None
   selector:
