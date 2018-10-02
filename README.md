@@ -161,5 +161,23 @@ The application Deployment annontation is used by Prometheus to know if (and whe
         prometheus.io/port: "9080"
         metrics.alpha.kubernetes.io/custom-endpoints: '{"path": "/prometheusExporter", "port": 9080, "names": ["bananashop_metric_bananas_count"]}'
 
+# Sample contents
+## Grafana dashboard
+
+![alt text](grafana.png)
+
+## Kubernetes status
+#### When application is idle
+
+    $ kubectl get horizontalpodautoscalers.autoscaling bananashop-app
+    NAME             REFERENCE                   TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+    bananashop-app   Deployment/bananashop-app   5/70      1         5         1          2d6h
+
+#### Under pressure
+
+    $ kubectl get horizontalpodautoscalers.autoscaling bananashop-app
+    NAME             REFERENCE                   TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+    bananashop-app   Deployment/bananashop-app   130/70    1         5         2          2d6h
+
 # References
 - https://github.com/CPMoore/waslp-prometheusExporter
