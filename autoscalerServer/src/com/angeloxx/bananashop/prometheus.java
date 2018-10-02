@@ -21,19 +21,24 @@ import javax.management.ObjectName;
 public class Prometheus implements PrometheusMBean {
 	@EJB
     private CounterBean counterBean;
-	private int bananasCount = 0;
 	
-	
+    /* (non-Javadoc)
+     * @see com.angeloxx.bananashop.PrometheusMBean#getBananasCount()
+     */
     public int getBananasCount() {
     	return counterBean.countBananas();
     }
     
-	@Override
+	/* (non-Javadoc)
+	 * @see com.angeloxx.bananashop.PrometheusMBean#getConcurrentClients()
+	 */
 	public int getConcurrentClients() {
 		return counterBean.getConcurrentClients();
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see com.angeloxx.bananashop.PrometheusMBean#getBananasPerMinute()
+	 */
 	public int getBananasPerMinute() {
 		return counterBean.getBananasPerMinute();
 	}
