@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import javax.annotation.ManagedBean;
 import javax.ejb.LocalBean;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.management.Attribute;
 import javax.management.AttributeNotFoundException;
@@ -32,9 +33,13 @@ import lombok.Getter;
 /**
  * Session Bean implementation class counter
  */
+/**
+ * @author aconf
+ *
+ */
 @Singleton
 @LocalBean
-public class counterBean {
+public class CounterBean {
 
 	public int bananas = 0;
 	public int previousBananas = 0;
@@ -47,23 +52,36 @@ public class counterBean {
      * @throws InstanceAlreadyExistsException 
      * @throws MalformedObjectNameException 
      */
-    public counterBean() {
+    public CounterBean() {
         this.bananas = 0;
     }
 
+    /**
+     * Return a new banana
+     * @param clientId unique identifier of the client
+     */
     public void getNewBanana(String clientId) {
     	clients.put(clientId, new Date());
         bananas++;
    }
     
+    /**
+     * @return global number of delivered bananas
+     */
     public int countBananas() {
     	return bananas;
     }
     
+    /**
+     * @return number of concurrent clients in the last minute
+     */
     public int getConcurrentClients() {
     	return clients.size();
     }
     
+    /**
+     * @return number of estimated delivered bananas per minute
+     */
     public int getBananasPerMinute() {
     	return bananasPerMinute;
     }
@@ -71,11 +89,16 @@ public class counterBean {
     /**
      * Generate stats for the last minute based on last 10 seconds 
      */
+    @Schedule(second="*/10", minute="*", hour="*", month="*", year="*", persistent=false)
     public void doStats() {
     	bananasPerMinute = (bananas - previousBananas) * 6;
     	previousBananas = bananas;
     }
     
+    /**
+     * Removes from the concurrent client array the older clients   
+     */
+    @Schedule(second="*/30", minute="*", hour="*", month="*", year="*", persistent=false)
     public void cleanupClients() {
 
     	Calendar lastMinute  = Calendar.getInstance();

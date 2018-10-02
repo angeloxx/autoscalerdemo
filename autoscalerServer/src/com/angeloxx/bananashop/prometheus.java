@@ -18,9 +18,9 @@ import javax.management.ObjectName;
 
 @Singleton
 @Startup
-public class prometheus implements prometheusMBean {
+public class Prometheus implements PrometheusMBean {
 	@EJB
-    private counterBean counterBean;
+    private CounterBean counterBean;
 	private int bananasCount = 0;
 	
 	
@@ -28,10 +28,6 @@ public class prometheus implements prometheusMBean {
     	return counterBean.countBananas();
     }
     
-//    public void setBananasCount(int i) {
-//    	bananasCount = i;
-//    }    
-
 	@Override
 	public int getConcurrentClients() {
 		return counterBean.getConcurrentClients();
@@ -51,7 +47,7 @@ public class prometheus implements prometheusMBean {
 	 * @throws InstanceNotFoundException 
      */
 	
-    public prometheus() throws MalformedObjectNameException, InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException, InstanceNotFoundException {
+    public Prometheus() throws MalformedObjectNameException, InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException, InstanceNotFoundException {
     	System.out.println("Application Start Code "+this);
     	List<MBeanServer> srvrList = MBeanServerFactory.findMBeanServer(null);
     	MBeanServer server = srvrList.iterator().next();

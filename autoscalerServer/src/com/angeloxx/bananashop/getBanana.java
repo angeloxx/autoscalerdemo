@@ -22,7 +22,7 @@ public class getBanana extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@EJB
-    private counterBean counterBean;
+    private CounterBean counterBean;
        
     /**
      * @see HttpServlet#HttpServlet()
