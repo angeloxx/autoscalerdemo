@@ -127,24 +127,12 @@ Grafana
  ## Install application
     kubectl apply -f /secure/kubernetes/website.yaml
 
-# References
-- https://github.com/CPMoore/waslp-prometheusExporter
-
-# Demo
-## URLS
-- http://k8s-node.angeloxx.lan:30010/bananaShop/index.html
-- http://k8s-node.angeloxx.lan:30010/prometheusExporter/
-- http://k8s-node.angeloxx.lan:30010/bananaShop/getBanana?id=orango
-- http://k8s-node.angeloxx.lan:31190/graph
-- http://k8s-node.angeloxx.lan:31425/dashboard/db/banana
-
-## Useful command lines
+## Useful command lines during the remo
 
     kubectl get horizontalpodautoscalers.autoscaling bananashop-app
     kubectl describe deployments bananashop-app
 
-
-# Usage of prometheudExported feature
+## Usage of prometheudExported feature
 
 Install the feature in your Webshere Liberty
 
@@ -172,3 +160,6 @@ The application Deployment annontation is used by Prometheus to know if (and whe
         prometheus.io/path: "/prometheusExporter"
         prometheus.io/port: "9080"
         metrics.alpha.kubernetes.io/custom-endpoints: '{"path": "/prometheusExporter", "port": 9080, "names": ["bananashop_metric_bananas_count"]}'
+
+# References
+- https://github.com/CPMoore/waslp-prometheusExporter
