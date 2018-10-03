@@ -233,11 +233,12 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "kubelet_running_container_count",
-              "intervalFactor": 2,
+              "expr": "kubelet_running_container_count - 12",
+              "interval": "",
+              "intervalFactor": 1,
               "metric": "",
               "refId": "A",
-              "step": 4
+              "step": 1
             }
           ],
           "thresholds": [],
@@ -304,17 +305,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "bananashop_metric_concurrent_clients",
-              "intervalFactor": 2,
+              "expr": "wlp_metric_type_servletstats_name_bananashop_com_angeloxx_bananashop_getbanana_response_time / 1000000",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "",
               "metric": "bananashop_metric_concurrent_clients",
               "refId": "A",
-              "step": 4
+              "step": 1
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Concurrent clients",
+          "title": "Response time (ms - Liberty)",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -330,7 +333,7 @@
           "yaxes": [
             {
               "format": "short",
-              "label": null,
+              "label": "",
               "logBase": 1,
               "max": null,
               "min": null,
@@ -471,5 +474,5 @@
   },
   "timezone": "browser",
   "title": "Banana!",
-  "version": 12
+  "version": 13
 }
