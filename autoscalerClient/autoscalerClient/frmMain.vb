@@ -2,6 +2,7 @@
 Public Class frmMain
     Private isRunning As Boolean
     Private requestCounter As Integer
+    Private countMinutes As Integer
     Private request As System.Net.HttpWebRequest = Nothing
     Dim id As String = Guid.NewGuid().ToString("N")
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -41,6 +42,7 @@ Public Class frmMain
             request.Timeout = 1000
             request.KeepAlive = False
             requestCounter = requestCounter + 1
+            countMinutes = countMinutes + 1
 
             Dim myStreamReader As New StreamReader(request.GetResponse.GetResponseStream)
             txtLog.AppendText(myStreamReader.ReadToEnd() + vbCrLf)
@@ -49,5 +51,14 @@ Public Class frmMain
             txtLog.AppendText(ex.ToString)
         End Try
         tmrRequests.Enabled = True
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblBananaSeconds.Click
+
+    End Sub
+
+    Private Sub tmrStats_Tick(sender As Object, e As EventArgs) Handles tmrStats.Tick
+        lblBananaSeconds.Text = Str(countMinutes * 6) + "b/s"
+        countMinutes = 0
     End Sub
 End Class

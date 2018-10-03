@@ -29,6 +29,8 @@ Partial Class frmMain
         Me.tmrRequests = New System.Windows.Forms.Timer(Me.components)
         Me.lblCounter = New System.Windows.Forms.Label()
         Me.txtLog = New System.Windows.Forms.TextBox()
+        Me.lblBananaSeconds = New System.Windows.Forms.Label()
+        Me.tmrStats = New System.Windows.Forms.Timer(Me.components)
         CType(Me.pictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -74,11 +76,29 @@ Partial Class frmMain
         Me.txtLog.Size = New System.Drawing.Size(256, 136)
         Me.txtLog.TabIndex = 3
         '
+        'lblBananaSeconds
+        '
+        Me.lblBananaSeconds.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.lblBananaSeconds.BackColor = System.Drawing.Color.Transparent
+        Me.lblBananaSeconds.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.86792!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBananaSeconds.Location = New System.Drawing.Point(215, 244)
+        Me.lblBananaSeconds.Name = "lblBananaSeconds"
+        Me.lblBananaSeconds.Size = New System.Drawing.Size(69, 39)
+        Me.lblBananaSeconds.TabIndex = 4
+        Me.lblBananaSeconds.Text = "0 b/s"
+        Me.lblBananaSeconds.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'tmrStats
+        '
+        Me.tmrStats.Enabled = True
+        Me.tmrStats.Interval = 10000
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(284, 483)
+        Me.Controls.Add(Me.lblBananaSeconds)
         Me.Controls.Add(Me.txtLog)
         Me.Controls.Add(Me.lblCounter)
         Me.Controls.Add(Me.btnStart)
@@ -99,4 +119,6 @@ Partial Class frmMain
     Friend WithEvents tmrRequests As Timer
     Friend WithEvents lblCounter As Label
     Friend WithEvents txtLog As TextBox
+    Friend WithEvents lblBananaSeconds As Label
+    Friend WithEvents tmrStats As Timer
 End Class

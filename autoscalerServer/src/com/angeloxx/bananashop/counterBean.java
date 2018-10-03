@@ -4,31 +4,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
-import javax.annotation.ManagedBean;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import javax.management.Attribute;
-import javax.management.AttributeNotFoundException;
-import javax.management.DynamicMBean;
 import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.MBeanException;
 import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerFactory;
 import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
-
-import lombok.Getter;
-
 
 /**
  * Session Bean implementation class counter
@@ -61,6 +47,12 @@ public class CounterBean {
      * @param clientId unique identifier of the client
      */
     public void getNewBanana(String clientId) {
+    	
+    	if (bananasPerMinute > 65) { 
+	    	try {
+				TimeUnit.MILLISECONDS.sleep(250 + bananasPerMinute);
+	    	} catch (InterruptedException ex) {}
+    	}
     	clients.put(clientId, new Date());
         bananas++;
    }

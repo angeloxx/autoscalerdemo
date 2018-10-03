@@ -2,9 +2,7 @@ package com.angeloxx.bananashop;
 
 import java.util.List;
 
-import javax.annotation.ManagedBean;
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.management.InstanceAlreadyExistsException;
@@ -25,6 +23,7 @@ public class Prometheus implements PrometheusMBean {
     /* (non-Javadoc)
      * @see com.angeloxx.bananashop.PrometheusMBean#getBananasCount()
      */
+	@Override
     public int getBananasCount() {
     	return counterBean.countBananas();
     }
@@ -32,6 +31,7 @@ public class Prometheus implements PrometheusMBean {
 	/* (non-Javadoc)
 	 * @see com.angeloxx.bananashop.PrometheusMBean#getConcurrentClients()
 	 */
+	@Override	
 	public int getConcurrentClients() {
 		return counterBean.getConcurrentClients();
 	}
@@ -39,6 +39,7 @@ public class Prometheus implements PrometheusMBean {
 	/* (non-Javadoc)
 	 * @see com.angeloxx.bananashop.PrometheusMBean#getBananasPerMinute()
 	 */
+	@Override
 	public int getBananasPerMinute() {
 		return counterBean.getBananasPerMinute();
 	}

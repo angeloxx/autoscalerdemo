@@ -15,11 +15,10 @@
 
 
 	<prometheusExporter lowercaseOutputLabelNames="true" lowercaseOutputName="true" path="/" startDelaySeconds="1">
-        <blacklistObjectName>WebSphere:*</blacklistObjectName>
-        <blacklistObjectName>waslp:*</blacklistObjectName>
         <connection addIdentificationLabels="true" baseURL="http://localhost:9081" includeMemberMetrics="true"/>
-        <rule attrNameSnakeCase="true" help="Some help text" name="os_metric_$1" pattern="java.lang{type=OperatingSystem}{}(.*):" valueFactor="1"></rule>
-        <rule attrNameSnakeCase="true" help="BananaShopMetrics" name="bananashop_metric_$1" pattern="com.angeloxx.bananashop{type=CounterMBean}{}(.*):"></rule>  
+        <rule attrNameSnakeCase="true" help="Some help text" name="os_metric_$1" pattern="java.lang{type=OperatingSystem}{}(.*):" valueFactor="1" />
+        <rule attrNameSnakeCase="true" help="BananaShopMetrics" name="bananashop_metric_$1" pattern="com.angeloxx.bananashop{type=CounterMBean}{}(.*):" />
+        <rule attrNameSnakeCase="true" help="Liberty metric" name="wlp_metric_$1" pattern="WebSphere(.*):" valueFactor="1" />
     </prometheusExporter>
 
  <dataSource id="DefaultDataSource" jdbcDriverRef="DerbyEmbedded">

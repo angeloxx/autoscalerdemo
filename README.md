@@ -109,6 +109,10 @@ Metric server (based on Prometheus)
     kubectl apply -f https://raw.githubusercontent.com/stefanprodan/k8s-prom-hpa/master/custom-metrics-api/custom-metrics-resource-reader-cluster-role.yaml
     kubectl apply -f https://raw.githubusercontent.com/stefanprodan/k8s-prom-hpa/master/custom-metrics-api/hpa-custom-metrics-cluster-role-binding.yaml
 
+
+    kubectl edit configmaps --namespace=monitoring prometheus-config
+    # Change scrape interval to 5s
+
 Grafana
 
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/deployment.yaml
