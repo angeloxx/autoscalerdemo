@@ -1,2 +1,8 @@
 /kubernetes/do-not-deploy.yaml
 *.class
+*.dll
+*.lock
+build/
+autoscalerNet/.vs/
+obj
+bin

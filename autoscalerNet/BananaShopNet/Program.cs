@@ -15,13 +15,12 @@ namespace BananaShopNet
         
         public static void Main(string[] args)
         {
-            IBananaMetrics bananaMetrics;
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
 
             var metricServer = new MetricServer(port: 5001);

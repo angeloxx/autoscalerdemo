@@ -29,6 +29,11 @@ namespace BananaShopNet.Controllers
         {
             return StatusCode(200, Json(new { bananas = this.bananaMetrics.getBananas() } ));
         }
+        [HttpGet("/health")]
+        public ActionResult health()
+        {
+            return StatusCode(200, Json(new { status = "OK" }));
+        }
     }
 
 }

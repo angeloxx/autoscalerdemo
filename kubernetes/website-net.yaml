@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bananashop-net
+  labels:
+    app: bananashop-net
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bananashop-net
+  template:
+    metadata:
+      labels:
+        app: bananashop-net
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "5001"
+    spec:
+      containers:
+      - name: bananashop-net
+        image: angeloxx/bananashopnet:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bananashop
+spec:
+  sessionAffinity: None
+  selector:
+    app: bananashop-net
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    nodePort: 30011
+  type: NodePort

@@ -1,3 +1,11 @@
+# Table of contents
+
+- autoscalerClient: simple VB.NET demo client (you can use the web interface)
+- autoscalerServer: Websphere Liberty server application
+- autoscalerNet: .Net Core 2.0 server application + docker file
+- docker: docker build files of Websphere Liberty server application
+- kubernetes: deployment files for Java and .Net application + dashboard
+
 # Installation
 ## Kubernetes node (based on Debian 9)
 
@@ -120,12 +128,10 @@ Grafana
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/configmap.yaml
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/job.yaml
 
-
-
 # Java Application
 ## Build Docker image
 
-    cd docker/wlp
+    cd docker
     docker build --no-cache  . -t angeloxx/bananashop    
     
  ## Install application
@@ -134,7 +140,9 @@ Grafana
 # .NET Application
 ## Build Docker image
 
-    cd docker/net
+This build procedure uses the same image for build and run, this is not a right way to put application in production!!!
+
+    cd autoscalerNet/BananaShopNet
     docker build --no-cache  . -t angeloxx/bananashopnet 
     
  ## Install application
@@ -145,7 +153,7 @@ Grafana
     kubectl get horizontalpodautoscalers.autoscaling bananashop-app
     kubectl describe deployments bananashop-app
 
-## Usage of prometheudExported feature
+## Usage of prometheudExported feature (Java)
 
 Install the feature in your Webshere Liberty
 
@@ -177,7 +185,13 @@ The application Deployment annontation is used by Prometheus to know if (and whe
 # Sample contents
 ## Grafana dashboard
 
+Java application
+
 ![alt text](grafana.png)
+
+.NET application (banana counter and dotnet memory)
+
+![alt text](grafana-net.png)
 
 ## Kubernetes status
 #### When application is idle
