@@ -122,14 +122,23 @@ Grafana
 
 
 
-# Application
+# Java Application
 ## Build Docker image
 
-    cd docker
+    cd docker/wlp
     docker build --no-cache  . -t angeloxx/bananashop    
     
  ## Install application
-    kubectl apply -f /secure/kubernetes/website.yaml
+    kubectl apply -f /secure/kubernetes/website-wlp.yaml
+    
+# .NET Application
+## Build Docker image
+
+    cd docker/net
+    docker build --no-cache  . -t angeloxx/bananashopnet 
+    
+ ## Install application
+    kubectl apply -f /secure/kubernetes/website-net.yaml
 
 ## Useful command lines during the remo
 
@@ -185,3 +194,4 @@ The application Deployment annontation is used by Prometheus to know if (and whe
 
 # References
 - https://github.com/CPMoore/waslp-prometheusExporter
+- https://github.com/prometheus-net/prometheus-net
