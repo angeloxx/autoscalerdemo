@@ -34,6 +34,7 @@ namespace BananaShopNet
             // Add framework services.
             services.AddMvc();
             services.AddSingleton<IBananaMetrics, BananaMetrics>();
+            services.AddHostedService<BananaTask>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

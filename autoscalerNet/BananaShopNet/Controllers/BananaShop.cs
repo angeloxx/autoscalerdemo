@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Prometheus;
 
 namespace BananaShopNet.Controllers
 {
@@ -27,7 +26,10 @@ namespace BananaShopNet.Controllers
         [HttpGet("/getTotalBananas")]
         public ActionResult getTotalBananas()
         {
-            return StatusCode(200, Json(new { bananas = this.bananaMetrics.getBananas() } ));
+            return StatusCode(200, Json(new {
+                bananas = this.bananaMetrics.getBananas(),
+                bananaPerMinute = this.bananaMetrics.getBananasPerMinute()
+            } ));
         }
         [HttpGet("/health")]
         public ActionResult health()

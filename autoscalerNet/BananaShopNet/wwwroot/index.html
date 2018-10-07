@@ -48,7 +48,7 @@
             type: 'get',
             success: function(data) {
               	if ( data.value.bananas > 0 ) { 
-                    $('#getBananas').html('We\'ve served ' + data.value.bananas + ' bananas. Click again!');
+                    $('#getBananas').html('We\'ve served ' + data.value.bananas + ' bananas and '+ data.value.bananaPerMinute +' per minute. Click again!');
                 }
             },
             error: function() { 	
@@ -75,7 +75,7 @@
     }
   </script>
     <section id="centerSection" onClick="getBanana();">
-    <h1>Feed your King Kong<br />with the best bananas in the world</h1><br />
+    <h1>Feed your .NET King Kong<br />with the best bananas in the world</h1><br />
 	<div id="getBananas">Click to get banana!</div>
   </section>
 
