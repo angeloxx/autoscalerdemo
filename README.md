@@ -148,10 +148,13 @@ This build procedure uses the same image for build and run, this is not a right 
  ## Install application
     kubectl apply -f /secure/kubernetes/website-net.yaml
 
-## Useful command lines during the remo
+## Useful command lines during the demo
 
     kubectl get horizontalpodautoscalers.autoscaling bananashop-app
     kubectl describe deployments bananashop-app
+
+    kubectl get horizontalpodautoscalers.autoscaling bananashop-net
+    kubectl describe deployments bananashop-net
 
 ## Usage of prometheudExported feature (Java)
 
