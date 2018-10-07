@@ -16,7 +16,7 @@ namespace BananaShopNet
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseKestrel()
+                .UseKestrel(o => { o.Limits.KeepAliveTimeout = TimeSpan.FromMilliseconds(10); })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseWebRoot(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"))
                 .UseIISIntegration()
