@@ -32,7 +32,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: bananashop
+  name: bananashop-net
 spec:
   sessionAffinity: None
   selector:

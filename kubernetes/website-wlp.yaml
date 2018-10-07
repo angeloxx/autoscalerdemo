@@ -33,7 +33,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: bananashop
+  name: bananashop-app
 spec:
   sessionAffinity: None
   selector:
