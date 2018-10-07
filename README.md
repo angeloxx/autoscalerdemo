@@ -1,10 +1,12 @@
 # Table of contents
 
 - autoscalerClient: simple VB.NET demo client (you can use the web interface)
-- autoscalerServer: Websphere Liberty server application
-- autoscalerNet: .Net Core 2.0 server application + docker file
+- autoscalerServerWLP: Websphere Liberty server application
+- autoscalerServerNet: .Net Core 2.0 server application + docker file
 - docker: docker build files of Websphere Liberty server application
 - kubernetes: deployment files for Java and .Net application + dashboard
+
+autoscalerServerWLP and autoscalerServerNet contains the needed Dockerfile to compile the source code and create a the local image.
 
 # Installation
 ## Kubernetes node (based on Debian 9)
@@ -131,22 +133,26 @@ Grafana
 # Java Application
 ## Build Docker image
 
-    cd docker
-    docker build --no-cache  . -t angeloxx/bananashop    
+This procecure use the multi-stage docker build to create the artifact with maven and inject the war file in the WLP base image:
+
+    cd autoscalerServerWLP
+    docker build --no-cache . -t angeloxx/bananashopwlp
     
  ## Install application
-    kubectl apply -f /secure/kubernetes/website-wlp.yaml
+
+    kubectl apply -f kubernetes/website-wlp.yaml
     
 # .NET Application
 ## Build Docker image
 
 This build procedure uses the same image for build and run, this is not a right way to put application in production!!!
 
-    cd autoscalerNet/BananaShopNet
+    cd autoscalerServerNet/BananaShopNet
     docker build --no-cache  . -t angeloxx/bananashopnet 
     
  ## Install application
-    kubectl apply -f /secure/kubernetes/website-net.yaml
+
+    kubectl apply -f kubernetes/website-net.yaml
 
 ## Useful command lines during the demo
 

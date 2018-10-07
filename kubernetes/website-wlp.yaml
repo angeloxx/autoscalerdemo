@@ -17,11 +17,10 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/prometheusExporter"
         prometheus.io/port: "9080"
-        metrics.alpha.kubernetes.io/custom-endpoints: '{"path": "/prometheusExporter", "port": 9080, "names": ["bananashop_metric_bananas_count"]}'
     spec:
       containers:
       - name: bananashop-app
-        image: angeloxx/bananashop:latest
+        image: angeloxx/bananashopwlp:latest
         imagePullPolicy: Never
         ports:
         - containerPort: 9080
