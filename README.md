@@ -130,30 +130,32 @@ Grafana
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/configmap.yaml
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/job.yaml
 
-# Java Application
-## Build Docker image
+# Build and install
+## Java Application
+### Build Docker image
 
 This procecure use the multi-stage docker build to create the artifact with maven and inject the war file in the WLP base image:
 
     cd autoscalerServerWLP
     docker build --no-cache . -t angeloxx/bananashopwlp
     
- ## Install application
+### Install application
 
     kubectl apply -f kubernetes/website-wlp.yaml
     
-# .NET Application
-## Build Docker image
+## .NET Application
+### Build Docker image
 
 This build procedure uses the same image for build and run, this is not a right way to put application in production!!!
 
     cd autoscalerServerNet/BananaShopNet
     docker build --no-cache  . -t angeloxx/bananashopnet 
     
- ## Install application
+### Install application
 
     kubectl apply -f kubernetes/website-net.yaml
 
+# Demo
 ## Useful command lines during the demo
 
     kubectl get horizontalpodautoscalers.autoscaling bananashop-app
@@ -162,37 +164,7 @@ This build procedure uses the same image for build and run, this is not a right 
     kubectl get horizontalpodautoscalers.autoscaling bananashop-net
     kubectl describe deployments bananashop-net
 
-## Usage of prometheudExported feature (Java)
-
-Install the feature in your Webshere Liberty
-
-    bin\featureManager install prometheusExporter-1.0.0.esa
-
-and activate the feature on your server.xml, eg:
-
-    <feature>restConnector-2.0</feature>
-    <feature>usr:prometheusExporter-1.0</feature>
-
-You can define the prometheus endpoint and the list of exposes metrics:
-
-	<prometheusExporter lowercaseOutputLabelNames="true" lowercaseOutputName="true" path="/" startDelaySeconds="1">
-        <blacklistObjectName>WebSphere:*</blacklistObjectName>
-        <blacklistObjectName>waslp:*</blacklistObjectName>
-        <connection addIdentificationLabels="true" baseURL="http://localhost:9081" includeMemberMetrics="true"/>
-        <rule attrNameSnakeCase="true" help="Some help text" name="os_metric_$1" pattern="java.lang{type=OperatingSystem}{}(.*):" valueFactor="1"></rule>
-        <rule attrNameSnakeCase="true" help="BananaShopMetrics" name="bananashop_metric_$1" pattern="com.angeloxx.bananashop{type=CounterMBean}{}(.*):"></rule>  
-    </prometheusExporter>
-
-The application Deployment annontation is used by Prometheus to know if (and where) scrape the pod for metrics:
-
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/path: "/prometheusExporter"
-        prometheus.io/port: "9080"
-        metrics.alpha.kubernetes.io/custom-endpoints: '{"path": "/prometheusExporter", "port": 9080, "names": ["bananashop_metric_bananas_count"]}'
-
-# Sample contents
-## Grafana dashboard
+## Sample Grafana dashboard
 
 Java application
 
@@ -268,3 +240,32 @@ Java application
 # References
 - https://github.com/CPMoore/waslp-prometheusExporter
 - https://github.com/prometheus-net/prometheus-net
+
+## Usage of prometheudExported feature (Java)
+
+Install the feature in your Webshere Liberty
+
+    bin\featureManager install prometheusExporter-1.0.0.esa
+
+and activate the feature on your server.xml, eg:
+
+    <feature>restConnector-2.0</feature>
+    <feature>usr:prometheusExporter-1.0</feature>
+
+You can define the prometheus endpoint and the list of exposes metrics:
+
+	<prometheusExporter lowercaseOutputLabelNames="true" lowercaseOutputName="true" path="/" startDelaySeconds="1">
+        <blacklistObjectName>WebSphere:*</blacklistObjectName>
+        <blacklistObjectName>waslp:*</blacklistObjectName>
+        <connection addIdentificationLabels="true" baseURL="http://localhost:9081" includeMemberMetrics="true"/>
+        <rule attrNameSnakeCase="true" help="Some help text" name="os_metric_$1" pattern="java.lang{type=OperatingSystem}{}(.*):" valueFactor="1"></rule>
+        <rule attrNameSnakeCase="true" help="BananaShopMetrics" name="bananashop_metric_$1" pattern="com.angeloxx.bananashop{type=CounterMBean}{}(.*):"></rule>  
+    </prometheusExporter>
+
+The application Deployment annontation is used by Prometheus to know if (and where) scrape the pod for metrics:
+
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/prometheusExporter"
+        prometheus.io/port: "9080"
+        metrics.alpha.kubernetes.io/custom-endpoints: '{"path": "/prometheusExporter", "port": 9080, "names": ["bananashop_metric_bananas_count"]}'
