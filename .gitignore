@@ -6,3 +6,4 @@ build/
 autoscalerNet/.vs/
 obj
 bin
+.vscode
