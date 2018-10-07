@@ -209,6 +209,56 @@ Java application
     NAME             REFERENCE                   TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
     bananashop-app   Deployment/bananashop-app   130/70    1         5         2          2d6h
 
+## Read metrics via kubectl
+#### Java
+
+    $ kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/bananashop_metric_bananas_per_minute" | jq .
+    {
+    "kind": "MetricValueList",
+    "apiVersion": "custom.metrics.k8s.io/v1beta1",
+    "metadata": {
+        "selfLink": "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/%2A/bananashop_metric_bananas_per_minute"
+    },
+    "items": [
+        {
+        "describedObject": {
+            "kind": "Pod",
+            "namespace": "default",
+            "name": "bananashop-app-55c4c4d64-nwqrz",
+            "apiVersion": "/__internal"
+        },
+        "metricName": "bananashop_metric_bananas_per_minute",
+        "timestamp": "2018-10-07T10:09:27Z",
+        "value": "0"
+        }
+    ]
+    }
+
+#### .NET
+
+    $ kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/win_banana_metrics_perminute" | jq .
+    {
+    "kind": "MetricValueList",
+    "apiVersion": "custom.metrics.k8s.io/v1beta1",
+    "metadata": {
+        "selfLink": "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/%2A/win_banana_metrics_perminute"
+    },
+    "items": [
+        {
+        "describedObject": {
+            "kind": "Pod",
+            "namespace": "default",
+            "name": "bananashop-net-5f76598f9d-555dr",
+            "apiVersion": "/__internal"
+        },
+        "metricName": "win_banana_metrics_perminute",
+        "timestamp": "2018-10-07T10:10:31Z",
+        "value": "0"
+        }
+    ]
+    }
+
+
 # References
 - https://github.com/CPMoore/waslp-prometheusExporter
 - https://github.com/prometheus-net/prometheus-net
