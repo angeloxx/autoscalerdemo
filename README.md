@@ -130,6 +130,11 @@ Grafana
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/configmap.yaml
     kubectl apply -f https://raw.githubusercontent.com/giantswarm/kubernetes-prometheus/master/manifests/grafana/import-dashboards/job.yaml
 
+Dashboard
+
+    kubectl apply  -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+
 # Build and install
 ## Java Application
 ### Build Docker image
@@ -146,7 +151,7 @@ This procecure use the multi-stage docker build to create the artifact with mave
 ## .NET Application
 ### Build Docker image
 
-This build procedure uses the same image for build and run, this is not a right way to put application in production!!!
+This procecure use the multi-stage docker build to create the artifact with dotnet-sdk and inject the obtained files in the dotnet base base image:
 
     cd autoscalerServerNet/BananaShopNet
     docker build --no-cache  . -t angeloxx/bananashopnet 

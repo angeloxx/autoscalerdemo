@@ -1,4 +1,4 @@
-FROM maven:3.5-jdk-8-alpine
+FROM maven:3.5-jdk-8-alpine AS builder
 COPY . /build
 WORKDIR /build
 RUN mvn clean install && mv target/bananaShop*.war /build/bananaShop.war
@@ -10,4 +10,4 @@ RUN installUtility install /tmp/prometheusExporter-1.0.0.esa
 RUN mkdir -p /opt/ibm/wlp/usr/shared/resources/derby/
 COPY docker/server.xml /config/
 COPY docker/derby.jar /opt/ibm/wlp/usr/shared/resources/derby/
-COPY --from=0 /build/bananaShop.war /opt/ibm/wlp/usr/servers/defaultServer/apps/
+COPY --from=builder /build/bananaShop.war /opt/ibm/wlp/usr/servers/defaultServer/apps/
