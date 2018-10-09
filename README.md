@@ -245,6 +245,7 @@ Java application
 # References
 - https://github.com/CPMoore/waslp-prometheusExporter
 - https://github.com/prometheus-net/prometheus-net
+- https://github.com/prometheus/jmx_exporter
 
 ## Usage of prometheudExported feature (Java)
 
