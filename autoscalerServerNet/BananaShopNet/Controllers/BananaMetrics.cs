@@ -48,7 +48,7 @@ namespace BananaShopNet.Controllers
         public void doStats()
         {
             Console.WriteLine("doStats()");
-            this.BananasPerMinute = BananasPerMinuteCount * 6;
+            this.BananasPerMinute = (int)(((BananasPerMinuteCount * 6) + this.BananasPerMinute) / 2);
             this.BananasPerMinuteCount = 0;
             this.BananaPerMinuteMetric.Set(this.BananasPerMinute);
         }

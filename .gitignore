@@ -3,8 +3,11 @@
 *.dll
 *.lock
 build/
-autoscalerNet/.vs/
+.vs/*
 obj
 bin
 .vscode
 target
+.vs
+.suo/*
+*.ide-*
