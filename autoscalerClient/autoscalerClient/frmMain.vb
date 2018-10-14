@@ -53,12 +53,8 @@ Public Class frmMain
         tmrRequests.Enabled = True
     End Sub
 
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles lblBananaSeconds.Click
-
-    End Sub
-
     Private Sub tmrStats_Tick(sender As Object, e As EventArgs) Handles tmrStats.Tick
-        lblBananaSeconds.Text = Str(countMinutes * 6) + "b/s"
+        lblBananaSeconds.Text = Str(countMinutes * 6) + "b/m"
         countMinutes = 0
     End Sub
 End Class

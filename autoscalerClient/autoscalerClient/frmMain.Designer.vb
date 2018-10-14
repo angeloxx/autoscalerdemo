@@ -85,7 +85,7 @@ Partial Class frmMain
         Me.lblBananaSeconds.Name = "lblBananaSeconds"
         Me.lblBananaSeconds.Size = New System.Drawing.Size(69, 39)
         Me.lblBananaSeconds.TabIndex = 4
-        Me.lblBananaSeconds.Text = "0 b/s"
+        Me.lblBananaSeconds.Text = "0 b/m"
         Me.lblBananaSeconds.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'tmrStats

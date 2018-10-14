@@ -2,7 +2,7 @@
   "__inputs": [
     {
       "name": "DS_PROMETHEUS",
-      "label": "prometheus",
+      "label": "Prometheus",
       "description": "",
       "type": "datasource",
       "pluginId": "prometheus",
@@ -73,17 +73,32 @@
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
-          "seriesOverrides": [],
+          "seriesOverrides": [
+            {
+              "alias": "{}",
+              "color": "#DEDAF7",
+              "fill": 0,
+              "linewidth": 2,
+              "zindex": 3
+            }
+          ],
           "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
               "expr": "bananashop_metric_bananas_per_minute",
-              "intervalFactor": 2,
+              "intervalFactor": 1,
               "metric": "bananashop_metric_bananas_per_minute",
               "refId": "A",
-              "step": 2
+              "step": 1
+            },
+            {
+              "expr": "sum(bananashop_metric_bananas_per_minute)",
+              "hide": false,
+              "intervalFactor": 1,
+              "refId": "B",
+              "step": 1
             }
           ],
           "thresholds": [],
@@ -208,14 +223,14 @@
           "aliasColors": {},
           "bars": false,
           "datasource": "${DS_PROMETHEUS}",
-          "fill": 1,
+          "fill": 2,
           "id": 3,
           "legend": {
             "avg": false,
             "current": false,
             "max": false,
             "min": false,
-            "show": true,
+            "show": false,
             "total": false,
             "values": false
           },
@@ -224,8 +239,8 @@
           "links": [],
           "nullPointMode": "null",
           "percentage": false,
-          "pointradius": 5,
-          "points": false,
+          "pointradius": 1,
+          "points": true,
           "renderer": "flot",
           "seriesOverrides": [],
           "span": 5,
@@ -233,7 +248,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "kubelet_running_container_count - 12",
+              "expr": "kubelet_running_container_count",
               "interval": "",
               "intervalFactor": 1,
               "metric": "",
@@ -246,7 +261,7 @@
           "timeShift": null,
           "title": "Running pods",
           "tooltip": {
-            "shared": true,
+            "shared": false,
             "sort": 0,
             "value_type": "individual"
           },
@@ -255,15 +270,17 @@
             "mode": "time",
             "name": null,
             "show": true,
-            "values": []
+            "values": [
+              "total"
+            ]
           },
           "yaxes": [
             {
               "format": "short",
-              "label": null,
+              "label": "",
               "logBase": 1,
-              "max": null,
-              "min": null,
+              "max": "30",
+              "min": "12",
               "show": true
             },
             {
@@ -435,6 +452,17 @@
       "showTitle": false,
       "title": "Dashboard Row",
       "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": 250,
+      "panels": [],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
     }
   ],
   "schemaVersion": 14,
@@ -474,5 +502,5 @@
   },
   "timezone": "browser",
   "title": "Banana!",
-  "version": 13
+  "version": 3
 }
