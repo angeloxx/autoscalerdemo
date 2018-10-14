@@ -1,7 +1,7 @@
 # Table of contents
 
-- autoscalerServerWLP: Websphere Liberty server application
-- autoscalerServerNet: .Net Core 2.0 server application + docker file
+- autoscalerServerWLP: Websphere Liberty server application + docker file (build and run)
+- autoscalerServerNet: .Net Core 2.0 server application + docker file (build and run)
 - autoscalerClient: simple VB.NET demo client for WLP (you can use the web interface of .Net o WLP service)
 - kubernetes: deployment files for Java and .Net application + dashboard
 
