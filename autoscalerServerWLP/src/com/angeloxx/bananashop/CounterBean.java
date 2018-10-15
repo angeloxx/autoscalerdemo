@@ -34,12 +34,9 @@ public class CounterBean {
 	public int bananasPerMinute = 0;
     public int bananaLimitPerformance = 70;
 	public HashMap<String, Date> clients = new HashMap<String, Date>();
+
     /**
      * Default constructor. 
-     * @throws NotCompliantMBeanException 
-     * @throws MBeanRegistrationException 
-     * @throws InstanceAlreadyExistsException 
-     * @throws MalformedObjectNameException 
      */
     public CounterBean() {
         bananas = 0;
