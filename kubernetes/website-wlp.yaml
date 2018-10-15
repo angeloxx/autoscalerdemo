@@ -22,6 +22,9 @@ spec:
       - name: bananashop-app
         image: angeloxx/bananashopwlp:latest
         imagePullPolicy: Never
+        env:
+        - name: "MAX_BANANAS_PER_MINUTE"
+          value: "180"               
         ports:
         - containerPort: 9080
         readinessProbe:
@@ -59,4 +62,4 @@ spec:
     - type: Pods
       pods:
         metricName: bananashop_metric_bananas_per_minute
-        targetAverageValue: 70
+        targetAverageValue: 150

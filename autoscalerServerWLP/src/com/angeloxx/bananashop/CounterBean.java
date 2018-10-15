@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import javax.ejb.LocalBean;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.MBeanRegistrationException;
 import javax.management.MalformedObjectNameException;
@@ -23,6 +24,7 @@ import javax.management.NotCompliantMBeanException;
  * @author aconf
  *
  */
+@Startup
 @Singleton
 @LocalBean
 public class CounterBean {
@@ -30,6 +32,7 @@ public class CounterBean {
 	public int bananas = 0;
 	public int previousBananas = 0;
 	public int bananasPerMinute = 0;
+    public int bananaLimitPerformance = 70;
 	public HashMap<String, Date> clients = new HashMap<String, Date>();
     /**
      * Default constructor. 
@@ -39,7 +42,11 @@ public class CounterBean {
      * @throws MalformedObjectNameException 
      */
     public CounterBean() {
-        this.bananas = 0;
+        bananas = 0;
+
+        if (System.getenv("MAX_BANANAS_PER_MINUTE") != null) {
+            bananaLimitPerformance = Integer.parseInt(System.getenv("MAX_BANANAS_PER_MINUTE"));
+        }
     }
 
     /**
@@ -48,7 +55,7 @@ public class CounterBean {
      */
     public void getNewBanana(String clientId) {
     	
-    	if (bananasPerMinute > 65) { 
+    	if (bananasPerMinute > bananaLimitPerformance) { 
 	    	try {
 				TimeUnit.MILLISECONDS.sleep(250 + bananasPerMinute);
 	    	} catch (InterruptedException ex) {}
@@ -77,7 +84,7 @@ public class CounterBean {
     public int getBananasPerMinute() {
     	return bananasPerMinute;
     }
-    
+   
     /**
      * Generate stats for the last minute based on last 10 seconds 
      */

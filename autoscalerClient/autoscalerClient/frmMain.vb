@@ -9,7 +9,7 @@ Public Class frmMain
         isRunning = False
         pictureBox.Image = My.Resources.stopped
         requestCounter = 0
-        tmrRequests.Interval = 800
+        tmrRequests.Interval = 480
     End Sub
 
     Private Sub btnStart_Click(sender As Object, e As EventArgs) Handles btnStart.Click
